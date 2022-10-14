@@ -21,13 +21,8 @@ class Main(QDialog):
         self.btn_solve.clicked.connect(self.solve)
 
     def fill_random_numbers(self):
-        """
-        заполняем таблицу случайными числами
-        :return:
-        """
         row = 0
         col = 0
-
         # заполняем таблицу случайными числами
         while row < self.tableWidget.rowCount():
             while col < self.tableWidget.columnCount():
@@ -58,27 +53,23 @@ class Main(QDialog):
             col = 0
             min_num = list_information_max_num[3]
             max_num = list_information_max_num[0]
-            while row > self.tableWidget.rowCount():
-                while col > self.tableWidget.columnCount():
-                    item = int(self.tableWidget.item(row, col).text())
-                    QTableWidgetItem = item
-                    if (max_num/min_num < 10):
-                        self.label_task_error.setText('Задание не будет выполнено.')
-                    else:
-                        for i in range(self.tableWidget.rowCount):
-                                for j in range(self.tableWidget.columnCount):
-                                    if int(self.tableWidget.item(i, j).text()) == 0:
-                                        QTableWidgetItem = 1
-                                    if int(self.tableWidget.item(i, j).text()) < 0:
-                                        QTableWidgetItem = abs(QTableWidgetItem)
+            if (max_num / abs(min_num) < 10) or min_num == 0:
+                self.label_task_error.setText('Задание не будет выполнено.')
+            else:
+                while row < self.tableWidget.rowCount():
+                    while col < self.tableWidget.columnCount():
+                        item = int(self.tableWidget.item(row, col).text())
+                        if item == 0:
+                            self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
+                        if item < 0:
+                            number = str(abs(item))
+                            self.tableWidget.setItem(row, col, QTableWidgetItem(number))
+                        col += 1
+                    row += 1
+                    col = 0
+            self.label_task_done.setText('Задание выполнено.')
 
 def find_max(table_widget):
-    """
-    находим максимальное число из таблицы и его координаты
-    :param table_widget: таблица
-    :return: [max_num, row_max_number, col_max_number], если выкинуто исключение,
-            то None
-    """
 
     row_max_number = 0  # номер строки, в котором находится максимальне число
     col_max_number = 0  # номер столбца, в котором находится максимальне число
