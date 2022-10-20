@@ -53,21 +53,35 @@ class Main(QDialog):
             col = 0
             min_num = list_information_max_num[3]
             max_num = list_information_max_num[0]
-            if (max_num / abs(min_num) < 10) or min_num == 0:
+        try:
+            if (max_num / abs(min_num) < 10):
                 self.label_task_error.setText('Задание не будет выполнено.')
-            else:
-                while row < self.tableWidget.rowCount():
-                    while col < self.tableWidget.columnCount():
-                        item = int(self.tableWidget.item(row, col).text())
-                        if item == 0:
-                            self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
-                        if item < 0:
-                            number = str(abs(item))
-                            self.tableWidget.setItem(row, col, QTableWidgetItem(number))
-                        col += 1
-                    row += 1
-                    col = 0
-            self.label_task_done.setText('Задание выполнено.')
+        except ZeroDivisionError:
+            while row < self.tableWidget.rowCount():
+                while col < self.tableWidget.columnCount():
+                    item = int(self.tableWidget.item(row, col).text())
+                    if item == 0:
+                        self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
+                    if item < 0:
+                        number = str(abs(item))
+                        self.tableWidget.setItem(row, col, QTableWidgetItem(number))
+                    col += 1
+                row += 1
+                col = 0
+                self.label_task_done.setText('Задание выполнено.')
+        else:
+            while row < self.tableWidget.rowCount():
+                while col < self.tableWidget.columnCount():
+                    item = int(self.tableWidget.item(row, col).text())
+                    if item == 0:
+                        self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
+                    if item < 0:
+                        number = str(abs(item))
+                        self.tableWidget.setItem(row, col, QTableWidgetItem(number))
+                    col += 1
+                row += 1
+                col = 0
+        self.label_task_done.setText('Задание выполнено.')
 
 def find_max(table_widget):
 
