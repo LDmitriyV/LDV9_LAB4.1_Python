@@ -31,14 +31,18 @@ class Main(QDialog):
                 col += 1
             row += 1
             col = 0
-        self.label_error.setText('')
         self.label_max_el.setText('Максимальный элемент: ')
         self.label_min_el.setText('Минимальный элемент: ')
 
+
+
+
     def solve(self):
         list_information_max_num = find_max(self.tableWidget)
-        if not list_information_max_num:
+        if list_information_max_num == None:
             self.label_error.setText('Введены некорректные данные!')
+            self.label_task_done.setText("")
+            self.label_task_error.setText("")
         else:
             self.label_max_el.setText(
                 'Максимальный элемент: ' + str(list_information_max_num[0]) + ' [' +
@@ -53,35 +57,36 @@ class Main(QDialog):
             col = 0
             min_num = list_information_max_num[3]
             max_num = list_information_max_num[0]
-        try:
-            if (max_num / abs(min_num) < 10):
-                self.label_task_error.setText('Задание не будет выполнено.')
-        except ZeroDivisionError:
-            while row < self.tableWidget.rowCount():
-                while col < self.tableWidget.columnCount():
-                    item = int(self.tableWidget.item(row, col).text())
-                    if item == 0:
-                        self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
-                    if item < 0:
-                        number = str(abs(item))
-                        self.tableWidget.setItem(row, col, QTableWidgetItem(number))
-                    col += 1
-                row += 1
-                col = 0
-                self.label_task_done.setText('Задание выполнено.')
-        else:
-            while row < self.tableWidget.rowCount():
-                while col < self.tableWidget.columnCount():
-                    item = int(self.tableWidget.item(row, col).text())
-                    if item == 0:
-                        self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
-                    if item < 0:
-                        number = str(abs(item))
-                        self.tableWidget.setItem(row, col, QTableWidgetItem(number))
-                    col += 1
-                row += 1
-                col = 0
-        self.label_task_done.setText('Задание выполнено.')
+            try:
+                if (max_num / abs(min_num) < 10):
+                    self.label_task_error.setText('Задание не будет выполнено.')
+            except ZeroDivisionError:
+                while row < self.tableWidget.rowCount():
+                    while col < self.tableWidget.columnCount():
+                        item = int(self.tableWidget.item(row, col).text())
+                        if item == 0:
+                            self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
+                        if item < 0:
+                            number = str(abs(item))
+                            self.tableWidget.setItem(row, col, QTableWidgetItem(number))
+                        col += 1
+                    row += 1
+                    col = 0
+            else:
+                while row < self.tableWidget.rowCount():
+                    while col < self.tableWidget.columnCount():
+                        item = int(self.tableWidget.item(row, col).text())
+                        if item == 0:
+                            self.tableWidget.setItem(row, col, QTableWidgetItem(str(1)))
+                        if item < 0:
+                            number = str(abs(item))
+                            self.tableWidget.setItem(row, col, QTableWidgetItem(number))
+                        col += 1
+                    row += 1
+                    col = 0
+            self.label_task_done.setText('Задание выполнено.')
+
+
 
 def find_max(table_widget):
 
@@ -110,7 +115,7 @@ def find_max(table_widget):
             col = 0
         return [max_num, row_max_number, col_max_number, min_num, row_min_number, col_min_number]
     except Exception:
-            return None
+        return None
 
 
 def main():
