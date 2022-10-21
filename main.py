@@ -92,8 +92,8 @@ def find_max(table_widget):
 
     row_max_number = 0  # номер строки, в котором находится максимальне число
     col_max_number = 0  # номер столбца, в котором находится максимальне число
-    row_min_number = 0  # номер строки, в котором находится максимальне число
-    col_min_number = 0
+    row_min_number = 0  # номер строки, в котором находится минимальное число
+    col_min_number = 0  # номер столбца, в котором находится минимальное число
     try:
         max_num = float(table_widget.item(row_max_number, col_max_number).text())
         min_num = float(table_widget.item(row_min_number, col_min_number).text())# Максимальное значение
